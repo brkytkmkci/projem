@@ -1,23 +1,31 @@
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit
-from PyQt5.QtCore import QSize, QPoint
-from PyQt5.QtGui import QIcon, QPixmap
+from PyQt5.QtWidgets import QApplication, QWidget, QButtonGroup, QLabel, QVBoxLayout, QRadioButton, QPushButton
 import sys
 
 class Pencere(QWidget):
     def __init__(self):
         super().__init__()
-        self.resize(QSize(400,100))
-        self.move(QPoint(0,0))
-        self.setWindowTitle("Python ve PyQt5 ile Görsel Programlama Öğreniyoruz")
-        self.setWindowIcon(QIcon('a.png'))
+        self.yerlesim = QVBoxLayout(self)
+        self.radyo1 = QRadioButton("Kadın", self)
+        self.radyo2 = QRadioButton("Erkek", self)
+        self.dugme = QPushButton("Tamam", self)
+        self.yazi = QLabel("Erkek cinsiyetini seçtiniz.", self)
 
-        etiket = QLabel(self)
-        etiket.setText("Deneme")
-        etiket.setPixmap(QPixmap("b.png"))
-        etiket.resize(100,100)
+        self.dugmeGrubu = QButtonGroup(self)
+        self.dugmeGrubu.addButton(self.radyo1)
+        self.dugmeGrubu.addButton(self.radyo2)
 
-        lineedit = QLineEdit(self)
-        lineedit.setReadOnly(True)
+        self.yerlesim.addWidget(self.radyo1)
+        self.yerlesim.addWidget(self.radyo2)
+        self.yerlesim.addWidget(self.dugme)
+        self.yerlesim.addWidget(self.yazi)
+
+        self.dugme.clicked.connect(self.tiklandi)
+
+    def tiklandi(self):
+        if self.dugmeGrubu.checkedButton():
+            metin = self.dugmeGrubu.checkedButton().text() + " cinsiyetini seçtiniz."
+            self.yazi.setText(metin)
+        
 
 uygulama = QApplication(sys.argv)
 pencere1 = Pencere()
